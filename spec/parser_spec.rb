@@ -115,4 +115,11 @@ describe Parser do
       subject.print_list_of_visits
     end
   end
+
+  describe '#print_list_of_unique_views' do
+    it 'print the list in_unique_views_format' do
+      expect(printer). to receive(:print_in_unique_views_format)
+      subject.print_list_of_unique_views
+    end
+  end
 end

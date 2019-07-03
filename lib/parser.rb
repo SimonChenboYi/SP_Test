@@ -39,6 +39,10 @@ class Parser
     @printer.print_in_visits_format(@url_visits)
   end
 
+  def print_list_of_unique_views
+    @printer.print_in_unique_views_format(@uniq_url_views)
+  end
+
   private
 
   def file_exsit?(filename)
