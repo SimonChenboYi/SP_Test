@@ -5,6 +5,7 @@ class Parser
   def initialize
     @visits = {}
     @url_visits = []
+    @uniq_url_views = []
   end
 
   def read_log(filename)
@@ -23,6 +24,12 @@ class Parser
     @url_visits =
       @visits.sort.reverse
              .sort_by { |url_visits| url_visits[1].length }.reverse
+  end
+
+  def order_by_uniq_views
+    @uniq_url_views = @visits.sort.reverse
+    @uniq_url_views.map { |url_visits| url_visits[1] = url_visits[1].uniq }
+    @uniq_url_views.sort_by! { |uniq_url_visits| uniq_url_visits[1].length }.reverse!
   end
 
   private

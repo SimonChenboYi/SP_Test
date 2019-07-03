@@ -71,4 +71,38 @@ describe Parser do
                                              ['/contact', ['184.123.665.067']]]
     end
   end
+
+  describe '#order_by_uniq_views' do
+    it 'sort the page by number of unique ips - no repeated ip' do
+      file8 = 'file8.log'
+      content8 = "/home 184.123.665.067\n/home 235.313.352.950\n/contact 184.123.665.067"
+      allow(File).to receive(:open).with(file8, 'r').and_yield(StringIO.new(content8))
+      subject.read_log(file8)
+      expect(subject.order_by_uniq_views).to eq [['/home', ['184.123.665.067', '235.313.352.950']],
+                                                 ['/contact', ['184.123.665.067']]]
+    end
+
+    it 'sort the page by number of uniq ips - repeated ip' do
+      file9 = 'file9.log'
+      content9 = "/home 235.313.352.950\n/home 235.313.352.950\n/home 235.313.352.950\n" \
+                 "/index 158.577.775.616\n/index 722.247.931.582"
+      allow(File).to receive(:open).with(file9, 'r').and_yield(StringIO.new(content9))
+      subject.read_log(file9)
+      expect(subject.order_by_uniq_views)
+        .to eq [['/index', ['158.577.775.616', '722.247.931.582']],
+                ['/home', ['235.313.352.950']]]
+    end
+
+    it 'sort the page by number of uniq ips and in alphabetical order  - repeated ip' do
+      file10 = 'file10.log'
+      content10 = "/home 184.123.665.067\n/home 235.313.352.950\n/contact 184.123.665.067\n" \
+                 "/index 158.577.775.616\n/index 722.247.931.582"
+      allow(File).to receive(:open).with(file10, 'r').and_yield(StringIO.new(content10))
+      subject.read_log(file10)
+      expect(subject.order_by_uniq_views)
+        .to eq [['/home', ['184.123.665.067', '235.313.352.950']],
+                ['/index', ['158.577.775.616', '722.247.931.582']],
+                ['/contact', ['184.123.665.067']]]
+    end
+  end
 end
