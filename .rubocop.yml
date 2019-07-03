@@ -1,2 +1,10 @@
 Metrics/LineLength:
   Max: 100
+
+Metrics/ClassLength:
+  Exclude:
+    - "./spec/**"
+
+Metrics/BlockLength:
+  Exclude:
+  - 'spec/**'
