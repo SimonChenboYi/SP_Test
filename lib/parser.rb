@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'printer'
+require_relative './printer'
 
 # handel the log data
 class Parser
