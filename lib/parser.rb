@@ -15,6 +15,8 @@ class Parser
         @visits.key?(url) ? @visits[url].push(ip) : @visits[url] = [ip]
       end
     end
+    raise 'file is empty, please check again' if @visits.empty?
+
     @visits
   end
 end
