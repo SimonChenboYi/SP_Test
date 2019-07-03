@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'printer'
+
 # handel the log data
 class Parser
-  def initialize
+  def initialize(printer = Printer.new)
     @visits = {}
     @url_visits = []
     @uniq_url_views = []
+    @printer = printer
   end
 
   def read_log(filename)
@@ -30,6 +33,10 @@ class Parser
     @uniq_url_views = @visits.sort.reverse
     @uniq_url_views.map { |url_visits| url_visits[1] = url_visits[1].uniq }
     @uniq_url_views.sort_by! { |uniq_url_visits| uniq_url_visits[1].length }.reverse!
+  end
+
+  def print_list_of_visits
+    @printer.print_in_visits_format(@url_visits)
   end
 
   private

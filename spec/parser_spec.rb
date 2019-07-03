@@ -3,6 +3,9 @@
 require 'parser'
 
 describe Parser do
+  let(:printer) { double(:printer, print_in_visits_format: '', print_in_unique_views_format: '') }
+  subject { described_class.new(printer) }
+
   before do
     allow(File).to receive(:file?).and_return(true)
   end
@@ -103,6 +106,13 @@ describe Parser do
         .to eq [['/home', ['184.123.665.067', '235.313.352.950']],
                 ['/index', ['158.577.775.616', '722.247.931.582']],
                 ['/contact', ['184.123.665.067']]]
+    end
+  end
+
+  describe '#print_list_of_visits' do
+    it 'print the list in_visits_format' do
+      expect(printer). to receive(:print_in_visits_format)
+      subject.print_list_of_visits
     end
   end
 end
