@@ -49,4 +49,26 @@ describe Parser do
       end
     end
   end
+
+  describe '#order_by_visits' do
+    it 'sort the pages by number of total visits' do
+      file6 = 'file6.log'
+      content6 = "/home 184.123.665.067\n/home 235.313.352.950\n/contact 184.123.665.067"
+      allow(File).to receive(:open).with(file6, 'r').and_yield(StringIO.new(content6))
+      subject.read_log(file6)
+      expect(subject.order_by_visits).to eq [['/home', ['184.123.665.067', '235.313.352.950']],
+                                             ['/contact', ['184.123.665.067']]]
+    end
+
+    it 'sort the pages in alphabetical order when having same total visits' do
+      file7 = 'file7.log'
+      content7 = "/home 184.123.665.067\n/home 235.313.352.950\n" \
+                 "/contact 184.123.665.067\n/index 158.577.775.616\n/index 722.247.931.582"
+      allow(File).to receive(:open).with(file7, 'r').and_yield(StringIO.new(content7))
+      subject.read_log(file7)
+      expect(subject.order_by_visits).to eq [['/home', ['184.123.665.067', '235.313.352.950']],
+                                             ['/index', ['158.577.775.616', '722.247.931.582']],
+                                             ['/contact', ['184.123.665.067']]]
+    end
+  end
 end

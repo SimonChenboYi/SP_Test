@@ -4,6 +4,7 @@
 class Parser
   def initialize
     @visits = {}
+    @url_visits = []
   end
 
   def read_log(filename)
@@ -16,6 +17,12 @@ class Parser
     end
     file_empty?
     @visits
+  end
+
+  def order_by_visits
+    @url_visits =
+      @visits.sort.reverse
+             .sort_by { |url_visits| url_visits[1].length }.reverse
   end
 
   private
